@@ -4,3 +4,5 @@ import $ from 'jquery';
 $(() => {
 	svg4everybody();
 });
+
+import '../blocks/wrapper-app/wrapper-app.js';
