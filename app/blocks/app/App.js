@@ -6,16 +6,16 @@ import DropDown from '../drop-down/DropDown';
 const menu = [
 	{
 		link: '/articles',
-		label: 'Articles'
+		label: 'Articles',
 	},
 	{
 		link: '/contents',
-		label: 'Contents'
+		label: 'Contents',
 	},
 	{
 		link: '/posts',
-		label: 'Posts'
-	}
+		label: 'Posts',
+	},
 ];
 
 

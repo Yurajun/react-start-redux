@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default class Header extends Component {
 
 	static PropTypes = {
-		items: PropTypes.array.isRequired
+		items: PropTypes.array.isRequired,
 	};
 
 	render() {
