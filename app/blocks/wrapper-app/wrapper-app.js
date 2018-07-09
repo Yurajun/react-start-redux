@@ -1,13 +1,35 @@
-// import React from 'react'; // eslint-disable-line no-unused-vars
-// import {render}from 'react-dom';
-// import App from '../app/App'; // eslint-disable-line no-unused-vars
+import React from 'react'; // eslint-disable-line no-unused-vars
+import {render}from 'react-dom';
+import {Provider}from 'react-redux';
+import {createStore}from 'redux';
 
+import App from '../app/App';
 
-// render(
-// 	<App />,
-// 	document.querySelector('.wrapper-app')
-// );
+const initialState = [
+	'Smells like spirit',
+	'Enter Sandman',
+];
 
+function playList(state = initialState, action){
+	if (action.type === 'ADD_TRACK'){
+		return [
+			...state,
+			action.payload,
+		];
+	}
+	return state;
+}
+
+const store = createStore(playList);
+
+render(
+	<Provider store={store}>
+		<App />
+	</Provider>,
+	document.querySelector('.wrapper-app')
+);
+
+/*
 import {createStore}from 'redux';
 
 function playList(state = [], action){
@@ -45,3 +67,4 @@ addTrackBtn.addEventListener('click', () => {
 	store.dispatch({type: 'ADD_TRACK', payload: trackName.value});
 	trackName.value = '';
 });
+*/
