@@ -6,15 +6,23 @@ class App extends Component {
 
 	static PropTypes = {
 		testStore: PropTypes.array.isRequired,
+		onAddTrack: PropTypes.func,
 	};
+
+	addTrack() {
+		const props = this.props;
+		console.log('addTrack', this.trackInput.value);
+		props.onAddTrack(this.trackInput.value);
+		this.trackInput.value = '';
+	}
 
 	render() {
 		const props = this.props;
-		// console.log('this.props', props.testStore);
+		console.log('this.props', props.testStore);
 		return (
 			<div className='container'>
-				<input type='text' />
-				<button>Add Track</button>
+				<input ref={input => {this.trackInput = input;}} type='text' />
+				<button onClick={this.addTrack.bind(this)}>Add Track</button>
 				<ul>
 					{
 						props.testStore.map((track, index) =>
@@ -32,5 +40,9 @@ export default connect(
 	state => ({
 		testStore: state,
 	}),
-	dispatch => ({}),
+	dispatch => ({
+		onAddTrack: trackName => {
+			dispatch({type: 'ADD_TRACK', payload: trackName});
+		},
+	}),
 )(App);
