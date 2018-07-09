@@ -132,6 +132,7 @@
     "eslint-plugin-pug": "^1.1.1",
     "eslint-plugin-react": "^7.10.0",
     "prop-types": "^15.6.2",
-    "recompose": "^0.27.1"
+    "recompose": "^0.27.1",
+    "redux": "^4.0.0"
   }
 }
