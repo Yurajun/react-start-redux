@@ -5,7 +5,7 @@ import {connect}from 'react-redux';
 class App extends Component {
 
 	static PropTypes = {
-		testStore: PropTypes.array.isRequired,
+		tracks: PropTypes.array.isRequired,
 		onAddTrack: PropTypes.func,
 	};
 
@@ -18,7 +18,6 @@ class App extends Component {
 
 	render() {
 		const props = this.props;
-		console.log('this.props', props);
 		props.dv('this.props', props);
 		return (
 			<div className='container'>
@@ -26,7 +25,7 @@ class App extends Component {
 				<button onClick={this.addTrack.bind(this)}>Add Track</button>
 				<ul>
 					{
-						props.testStore.map((track, index) =>
+						props.tracks.map((track, index) =>
 							<li key={index}>{track}</li>
 						)
 					}
@@ -39,11 +38,14 @@ class App extends Component {
 
 export default connect(
 	state => ({
-		testStore: state,
+		tracks: state.tracks,
 	}),
 	dispatch => ({
 		onAddTrack: trackName => {
 			dispatch({type: 'ADD_TRACK', payload: trackName});
+		},
+		deleteTreck: trackName => {
+			dispatch({type: 'DELETE_TRACK', payload: trackName});
 		},
 	}),
 )(App);

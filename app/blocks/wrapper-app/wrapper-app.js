@@ -5,22 +5,9 @@ import {createStore}from 'redux';
 
 import App from '../app/App';
 
-const initialState = [
-	'Smells like spirit',
-	'Enter Sandman',
-];
+import reducer from '../reducers/index';
 
-function playList(state = initialState, action){
-	if (action.type === 'ADD_TRACK'){
-		return [
-			...state,
-			action.payload,
-		];
-	}
-	return state;
-}
-
-const store = createStore(playList, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()); // eslint-disable-line no-underscore-dangle
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()); // eslint-disable-line no-underscore-dangle
 const dv = console.log.bind(console);
 
 render(
