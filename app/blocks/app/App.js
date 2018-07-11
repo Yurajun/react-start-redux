@@ -18,22 +18,21 @@ class App extends Component {
 
 	render() {
 		const props = this.props;
-		console.log('this.props', props.testStore);
+		console.log('this.props', props);
+		props.dv('this.props', props);
 		return (
-			<div />
-		); // (
-		// 	<div className='container'>
-		// 		<input ref={input => {this.trackInput = input;}} type='text' />
-		// 		// <button onClick={this.addTrack.bind(this)}>Add Track</button>
-		// 		<ul>
-		// 			{
-		// 				props.testStore.map((track, index) =>
-		// 					<li key={index}>{track}</li>
-		// 				)
-		// 			}
-		// 		</ul>
-		// 	</div>
-		// );
+			<div className='container'>
+				<input ref={input => {this.trackInput = input;}} type='text' />
+				<button onClick={this.addTrack.bind(this)}>Add Track</button>
+				<ul>
+					{
+						props.testStore.map((track, index) =>
+							<li key={index}>{track}</li>
+						)
+					}
+				</ul>
+			</div>
+		);
 	}
 
 }
@@ -48,3 +47,5 @@ export default connect(
 		},
 	}),
 )(App);
+
+// react/jsx-no-bind: 2

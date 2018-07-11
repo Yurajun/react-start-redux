@@ -20,11 +20,12 @@ function playList(state = initialState, action){
 	return state;
 }
 
-const store = createStore(playList);
+const store = createStore(playList, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()); // eslint-disable-line no-underscore-dangle
+const dv = console.log.bind(console);
 
 render(
 	<Provider store={store}>
-		<App />
+		<App dv={dv} />
 	</Provider>,
 	document.querySelector('.wrapper-app')
 );
