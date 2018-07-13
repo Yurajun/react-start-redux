@@ -8,6 +8,7 @@ class App extends Component {
 		tracks: PropTypes.array.isRequired,
 		onAddTrack: PropTypes.func,
 		onFindTrack: PropTypes.func,
+		onDeleteTreck: PropTypes.func,
 	};
 
 	addTrack() {
@@ -68,8 +69,8 @@ export default connect(
 			};
 			dispatch({type: 'ADD_TRACK', payload});
 		},
-		onDeleteTreck: id => {
-			dispatch({type: 'DELETE_TRACK', payload: id});
+		onDeleteTreck: trackId => {
+			dispatch({type: 'DELETE_TRACK', payload: trackId});
 		},
 		onFindTrack: name => {
 			dispatch({type: 'FIND_TRACK', payload: name});
