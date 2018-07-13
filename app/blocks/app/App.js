@@ -12,20 +12,22 @@ class App extends Component {
 
 	addTrack() {
 		const props = this.props;
-		console.log('addTrack', this.trackInput.value);
 		props.onAddTrack(this.trackInput.value);
 		this.trackInput.value = '';
 	}
 
 	findTrack() {
 		const props = this.props;
-		console.log('findTrack', this.searchInput.value);
 		props.onFindTrack(this.searchInput.value);
+	}
+
+	deleteTreck(id) {
+		const props = this.props;
+		props.onDeleteTreck(id);
 	}
 
 	render() {
 		const props = this.props;
-		props.dv('this.props', props);
 		return (
 			<div className='container'>
 				<div>
@@ -39,7 +41,12 @@ class App extends Component {
 				<ul>
 					{
 						props.tracks.map((track, index) =>
-							<li key={index}>{track.name}</li>
+							(
+								<li key={index}>
+									{track.name}
+									<span className='delete-button' onClick={() => this.deleteTreck(track.id)} > X</span>
+								</li>
+							)
 						)
 					}
 				</ul>
@@ -59,11 +66,10 @@ export default connect(
 				id: Date.now().toString(),
 				name,
 			};
-			console.log('pl', payload);
 			dispatch({type: 'ADD_TRACK', payload});
 		},
-		deleteTreck: trackName => {
-			dispatch({type: 'DELETE_TRACK', payload: trackName});
+		onDeleteTreck: id => {
+			dispatch({type: 'DELETE_TRACK', payload: id});
 		},
 		onFindTrack: name => {
 			dispatch({type: 'FIND_TRACK', payload: name});
