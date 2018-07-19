@@ -1,15 +1,22 @@
+/* global $ */
 import React, {Component}from 'react';
 import PropTypes from 'prop-types';
 import {connect}from 'react-redux';
 
-class App extends Component {
+import Popup from '../popup/Popup';
 
+class App extends Component {
 	static PropTypes = {
 		tracks: PropTypes.array.isRequired,
 		onAddTrack: PropTypes.func,
 		onFindTrack: PropTypes.func,
 		onDeleteTreck: PropTypes.func,
 	};
+
+	constructor() {
+		super();
+		this.state = {track: {}};
+	}
 
 	addTrack() {
 		const props = this.props;
@@ -25,6 +32,12 @@ class App extends Component {
 	deleteTreck(id) {
 		const props = this.props;
 		props.onDeleteTreck(id);
+	}
+
+	change(track) {
+		const inst = $('[data-remodal-id=modal]').remodal();
+		inst.open();
+		this.setState({track});
 	}
 
 	render() {
@@ -45,12 +58,15 @@ class App extends Component {
 							(
 								<li key={index}>
 									{track.name}
-									<span className='delete-button' onClick={() => this.deleteTreck(track.id)} > X</span>
+									<span className='delete-button' onClick={() => this.deleteTreck(track.id)} > <button>X</button></span>
+									<button onClick={() => this.change(track)} >редактировать</button>
+
 								</li>
 							)
 						)
 					}
 				</ul>
+				<Popup track={this.state.track} />
 			</div>
 		);
 	}
@@ -75,6 +91,9 @@ export default connect(
 		onFindTrack: name => {
 			dispatch({type: 'FIND_TRACK', payload: name});
 		},
+		// onChangeTrack: trackId => {
+		// 	dispatch({type: 'CANGE_TRACK', payload: trackId});
+		// },
 	}),
 )(App);
 

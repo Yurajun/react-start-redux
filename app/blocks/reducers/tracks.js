@@ -9,6 +9,8 @@ export default function playList(state = initialState, action){
 		];
 	}else if (action.type === 'DELETE_TRACK'){
 		return state.filter(obj => obj.id !== action.payload);
+	}else if (action.type === 'CANGE_TRACK'){
+		return action.payload;
 	}
 	return state;
 }
