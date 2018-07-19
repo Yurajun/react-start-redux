@@ -3,8 +3,6 @@ import React, {Component}from 'react';
 import PropTypes from 'prop-types';
 import {connect}from 'react-redux';
 
-import Popup from '../popup/Popup';
-
 class App extends Component {
 	static PropTypes = {
 		tracks: PropTypes.array.isRequired,
@@ -15,7 +13,7 @@ class App extends Component {
 
 	constructor() {
 		super();
-		this.state = {track: {}};
+		this.state = {track: {id: '', name: ''}};
 	}
 
 	addTrack() {
@@ -34,14 +32,26 @@ class App extends Component {
 		props.onDeleteTreck(id);
 	}
 
-	change(track) {
+	openPopup(track) {
 		const inst = $('[data-remodal-id=modal]').remodal();
 		inst.open();
-		this.setState({track});
+		this.setState({track: {id: track.id, name: track.name}});
+	}
+
+	handleChange(event) {
+		const track = this.state.track;
+		this.setState({track: {id: track.id, name: event.target.value}});
+	}
+
+	saveNewTrackName() {
+		const props = this.props;
+		const track = this.state.track;
+		props.onChangeTrack(track);
 	}
 
 	render() {
 		const props = this.props;
+		console.log('props ', props);
 		return (
 			<div className='container'>
 				<div>
@@ -59,14 +69,31 @@ class App extends Component {
 								<li key={index}>
 									{track.name}
 									<span className='delete-button' onClick={() => this.deleteTreck(track.id)} > <button>X</button></span>
-									<button onClick={() => this.change(track)} >редактировать</button>
+									<button onClick={() => this.openPopup(track)} >редактировать</button>
 
 								</li>
 							)
 						)
 					}
 				</ul>
-				<Popup track={this.state.track} />
+				<div
+					className='remodal'
+					data-remodal-id='modal'
+					data-remodal-options='hashTracking: false'
+				>
+					<button className='remodal-close' data-remodal-action='close' >X</button>
+					<p>Отредактируй и сохрани</p>
+					<input
+						onChange={e => {this.handleChange(e);}}
+						type='text'
+						value={this.state.track.name}
+					/>
+					<button
+						className='remodal-confirm'
+						data-remodal-action='confirm'
+						onClick={this.saveNewTrackName.bind(this)}
+					>OK</button>
+				</div>
 			</div>
 		);
 	}
@@ -91,10 +118,11 @@ export default connect(
 		onFindTrack: name => {
 			dispatch({type: 'FIND_TRACK', payload: name});
 		},
-		// onChangeTrack: trackId => {
-		// 	dispatch({type: 'CANGE_TRACK', payload: trackId});
-		// },
+		onChangeTrack: track => {
+			dispatch({type: 'CHANGE_TRACK', track});
+		},
 	}),
 )(App);
 
+// <Popup track={this.state.track} />
 // react/jsx-no-bind: 2
