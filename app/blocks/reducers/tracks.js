@@ -11,11 +11,18 @@ export default function playList(state = initialState, action){
 	}else if (action.type === 'DELETE_TRACK'){
 		return state.filter(obj => obj.id !== action.payload);
 	}else if (action.type === 'CHANGE_TRACK'){
-		const newState = state.filter(obj => obj.id !== action.track.id);
-		return [
-			...newState,
-			action.track,
-		];
+		const newState = state.map(obj => {
+			if (obj.id === action.track.id){
+				obj.name = action.track.name;
+			}
+			return obj;
+		});
+		return newState;
+		// const newState = state.filter(obj => obj.id !== action.track.id);
+		// return [
+		// 	...newState,
+		// 	action.track,
+		// ];
 	}
 	return state;
 }
