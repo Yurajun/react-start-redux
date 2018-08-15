@@ -3,6 +3,12 @@ import React, {Component}from 'react';
 import PropTypes from 'prop-types';
 import {connect}from 'react-redux';
 
+import {Link}from 'react-router';
+
+import {getTracks}from '../actions/tracks';
+
+import Menu from '../menu/Menu';
+
 class App extends Component {
 	static PropTypes = {
 		tracks: PropTypes.array.isRequired,
@@ -54,6 +60,7 @@ class App extends Component {
 		console.log('props ', props);
 		return (
 			<div className='container'>
+				<Menu />
 				<div>
 					<input ref={input => {this.trackInput = input;}} type='text' />
 					<button onClick={this.addTrack.bind(this)}>Add Track</button>
@@ -62,12 +69,15 @@ class App extends Component {
 					<input ref={input => {this.searchInput = input;}} type='text' />
 					<button onClick={this.findTrack.bind(this)}>Find Track</button>
 				</div>
+				<div>
+					<button onClick={props.onGetTracks}>Get traks</button>
+				</div>
 				<ul>
 					{
 						props.tracks.map((track, index) =>
 							(
 								<li key={index}>
-									{track.name}
+									<Link to={`/tracks/${track.id}`}>{track.name}</Link>
 									<span className='delete-button' onClick={() => this.deleteTreck(track.id)} > <button>X</button></span>
 									<button onClick={() => this.openPopup(track)} >редактировать</button>
 
@@ -101,8 +111,9 @@ class App extends Component {
 }
 
 export default connect(
-	state => ({
+	(state, ownProps) => ({
 		tracks: state.tracks.filter(track => track.name.includes(state.filterTracks)),
+		ownProps,
 	}),
 	dispatch => ({
 		onAddTrack: name => {
@@ -120,6 +131,9 @@ export default connect(
 		},
 		onChangeTrack: track => {
 			dispatch({type: 'CHANGE_TRACK', track});
+		},
+		onGetTracks: () => {
+			dispatch(getTracks());
 		},
 	}),
 )(App);
